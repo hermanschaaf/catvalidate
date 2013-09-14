@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<h1>Validate your cat ＾● ⋏ ●＾</h1>
+				<form method="post" role="form" action="/api/cat">
+					<div class="form-group">
+						<label for="input-name">Name:</label>
+						<input type="text" class="form-control" id="input-name" name="name" placeholder="Your cat's name" />
+						<p class="help-block"></p>
+					</div>
+					<div class="form-group">
+						<label for="input-name">Age:</label>
+						<input type="text" class="form-control" id="input-age" name="age" placeholder="Your cat's age" />
+						<p class="help-block"></p>
+					</div>
+					<div class="form-group">
+						<label for="input-name">Loves:</label>
+						<input type="text" class="form-control" id="input-loves" name="loves" placeholder="Things your cat loves (comma-separated)" />
+						<p class="help-block"></p>
+					</div>
+					<div class="form-group">
+						<label for="input-name">Picture:</label>
+						<input type="text" class="form-control" id="input-picture" name="picture" placeholder="Link to a picture of your cat" />
+						<p class="help-block"></p>
+					</div>
+
+					<div class="form-group">
+						<input class="btn btn-success" type="submit" value="Submit" />
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/assets/js/convert.js"></script>
+	<script type="text/javascript">
+		// in a more detailed example we could use JSV for client-side validation
+		// here - I'm a bit short on time at the moment. Pull requests welcome!
+		// --- 
+		// https://github.com/garycourt/JSV
+
+		$(function(){
+			$('form').submit(function(){
+				var $form = $(this);
+				var data = $form.serializeObject();
+
+				if ($.trim(data.loves.length) > 0) {
+					// split tags around commas
+					data['loves'] = data['loves'].split(",");
+
+					// remove whitespace around tags
+					$.map(data.loves, function(d){
+						$.trim(d);
+					});
+				}
+				else {
+					delete data['loves'];
+				}
+
+				// remove empty fields
+				for (var field in data) {
+					if ((!data[field] || data[field].length == 0) && field != 'name') {
+						delete data[field];
+					}
+				}
+
+				console.log(data);
+
+				$.post($form.attr('action'), data, function(response){
+					$('.form-group.has-error').removeClass('has-error').find('.help-block').text(''); // hacky
+
+					if (response.opstat == 'error' && response.fields) {
+						for (var field in response.fields) {
+						   var error = response.fields[field];
+						   $("[name="+field+"]").closest('.form-group').addClass('has-error').find('.help-block').text(error);
+						}
+						$('h1').text("Your cat is invalid ◎ヽ(^･ω･^=)~");
+					} else {
+						$('h1').text("Your cat is valid! (=^ェ^=)");
+					}
+				}, 'json');
+				return false;
+			});
+		});
+
+	</script>
+</body>
+</html>
