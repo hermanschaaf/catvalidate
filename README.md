@@ -9,6 +9,6 @@ To run:
 
     python manage.py runserver
 
-More information about Decanter: https://github.com/gengo/decanter
-More information about JSON Schema: http://json-schema.org/
-More information about me: http://ironzebra.com
+ - More information about Decanter: https://github.com/gengo/decanter
+ - More information about JSON Schema: http://json-schema.org/
+ - More information about me: http://ironzebra.com
