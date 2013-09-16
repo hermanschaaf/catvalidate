@@ -11,6 +11,7 @@ To run:
 
 -----------
 
- - More information about Decanter: https://github.com/gengo/decanter
- - More information about JSON Schema: http://json-schema.org/
- - More information about me: http://ironzebra.com
+ - More about Decanter: https://github.com/gengo/decanter
+ - More about JSON Schema: http://json-schema.org/
+ - More about me: http://ironzebra.com
+ - Slides from my talk at PYCON APAC 2013: [JSON Schema Validation for Cats](http://www.slideshare.net/hermanschaaf/json-schema-validation-pycon-apac)
